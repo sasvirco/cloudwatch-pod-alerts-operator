@@ -1,0 +1,29 @@
+apiVersion: "crd.k8s.sas.io/v1"
+kind: CloudWatchMetricAlarm
+metadata:
+  name: my-cloudwatch-alert
+spec:
+  AlarmName: crd-test-alarm
+  ComparisonOperator: GreaterThanOrEqualToThreshold
+  EvaluationPeriods: 4
+  MetricName: pod_number_of_container_restarts
+  Namespace: ContainerInsights
+  Period: 300
+  Statistic: Sum
+  Threshold: 2
+  AlarmDescription: Terraform default pod monitoring
+  AlarmActions: 
+    - arn:aws:sns:us-west-2:123456789012:my-topic-name
+  OKActions: 
+    - arn:aws:sns:us-west-2:123456789012:my-topic-name
+  TreatMissingData: "notBreaching"
+  Dimensions:
+      - 
+        Name: ClusterName 
+        Value : ${myclustername}
+      - 
+        Name: PodName
+        Value     : ${podname}
+      - 
+        Name : Namespace
+        Value   : ${namespace}

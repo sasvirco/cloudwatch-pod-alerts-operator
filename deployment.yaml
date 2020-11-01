@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudwatch-alerts-operator
+  labels:
+    app: cloudwatch-alerts-operator
+  namespace: kube-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cloudwatch-alerts-operator
+  template:
+    metadata:
+      labels:
+        app: cloudwatch-alerts-operator
+    spec:
+      serviceAccountName: cloudwatch-alerts-operator
+      containers:
+      - name: cloudwatch-alerts-operator
+        image: 123456789012.dkr.ecr.us-west-2.amazonaws.com/cloudwatch-alert-operator:latest
+        ports:
+        - containerPort: 80
