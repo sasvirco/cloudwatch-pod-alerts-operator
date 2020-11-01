@@ -1,0 +1,32 @@
+trigger:
+- master
+pr:
+- master
+
+stages:
+- stage: "Linting"
+  jobs:
+  - job: "LintChecks"
+    pool:
+      vmImage: "ubuntu-latest"
+    strategy:
+      matrix:
+        Python 3.8:
+          python.version: '3.8'
+    steps:
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '$(python.version)'
+      displayName: 'Use Python $(python.version)'
+
+    - script: |
+        python -m pip install --upgrade pip black
+      displayName: 'Install dependencies'
+
+    - script: |
+        black src/handler.py
+      displayName: 'Code formating (black)'
+
+    - script: |
+        flake8 src/handler.py
+      displayName: 'Code formating (flake8)'
