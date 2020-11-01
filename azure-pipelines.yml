@@ -24,9 +24,9 @@ stages:
       displayName: 'Install dependencies'
 
     - script: |
-        black --all-files
+        black src/handler.py
       displayName: 'Code formating (black)'
 
     - script: |
-        flake8 --all-files
+        flake8 src/handler.py
       displayName: 'Code formating (flake8)'
